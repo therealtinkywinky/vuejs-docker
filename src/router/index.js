@@ -9,6 +9,13 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/connect',
+    name: 'Connect',
+    component: function() {
+      return import('../views/Connect.vue')
+    }
   }
 ]
 
