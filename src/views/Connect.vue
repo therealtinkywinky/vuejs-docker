@@ -38,8 +38,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
   data() {
     return {
@@ -59,6 +57,8 @@ export default {
       axios.get(this.endpoint + '/info')
         .then(response => {
           axios.defaults.baseURL = this.endpoint;
+
+          this.$router.push('/dashboard');
         }).catch(() => {
           this.error = true;
         }).finally(() => {
