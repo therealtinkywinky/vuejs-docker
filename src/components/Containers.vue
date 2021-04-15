@@ -37,7 +37,7 @@ export default {
       var data = {
         params: {
           filters: {
-            status: this.filters.status.map(status => status.toLowerCase())
+            status: this.state.map(status => status.toLowerCase())
           }
         },
         headers: {
@@ -52,6 +52,19 @@ export default {
           this.overlay = false;
         });
     }
+  },
+  computed: {
+    state: function() {
+      return this.filters.state;
+    }
+  },
+  watch: {
+    state: function() {
+      this.loadContainers();
+    }
+  },
+  mounted() {
+    this.loadContainers();
   }
 }
 </script>

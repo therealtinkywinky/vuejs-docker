@@ -24,7 +24,7 @@ export default {
         params: {
           filters: {
             reference: [
-              this.filters.reference
+              this.reference
             ]
           }
         },
@@ -40,6 +40,19 @@ export default {
           this.overlay = false;
         });
     }
+  },
+  computed: {
+    reference: function() {
+      return this.filters.reference;
+    }
+  },
+  watch: {
+    reference: function() {
+      this.loadImages();
+    }
+  },
+  mounted() {
+    this.loadImages();
   }
 }
 </script>

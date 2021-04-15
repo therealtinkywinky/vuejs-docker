@@ -17,8 +17,8 @@
       <b-navbar-nav v-else-if="view == 'containers'" class="ml-5">
         <b-nav-form>
           <b-form-checkbox-group
-            v-model="filters.containers.state"
             :options="options.containers.state"
+            v-model="filters.containers.state"
             button-variant="outline-success"
             buttons>
           </b-form-checkbox-group>
@@ -30,8 +30,8 @@
       <b-container fluid class="min-vh-100 pt-5 pb-5">
         <b-card bg-variant="dark" class="mx-auto w-75">
           <template #default>
-            <images v-if="view == 'images'"></images>
-            <containers v-else-if="view == 'containers'"></containers>
+            <images v-if="view == 'images'" :filters="filters.images"></images>
+            <containers v-else-if="view == 'containers'" :filters="filters.containers"></containers>
           </template>
         </b-card>
       </b-container>
@@ -78,21 +78,6 @@ export default {
       },
 
       overlay: false
-    }
-  },
-  watch: {
-    view: function(value) {
-      /*
-      this.overlay = true;
-
-      if (value == 'images')
-        this.loadImages()
-      else if (value == 'containers')
-        this.loadContainers()
-      */
-    },
-    containersState: function(value) {
-      // this.loadContainers();
     }
   }
 }
