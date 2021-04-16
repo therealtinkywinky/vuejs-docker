@@ -1,6 +1,12 @@
 <template>
   <div>
-    <b-table borderless hover striped table-variant="dark" :items="items" :fields="fields"></b-table>
+    <b-table borderless hover striped table-variant="dark" :items="items" :fields="fields">
+      <template #cell(actions)="row">
+        <b-button-group size="sm">
+          <b-button variant="outline-warning" @click="inspect(row.item.Id)">Inspect</b-button>
+        </b-button-group>
+      </template>
+    </b-table>
   </div>
 </template>
 
@@ -14,7 +20,8 @@ export default {
       items: [],
       fields: [
         { key: 'Id', class: 'column-font align-middle' },
-        { key: 'Containers', class: 'column-font align-middle' }
+        { key: 'Containers', class: 'column-font align-middle' },
+        { key: 'Actions', label: '' }
       ]
     }
   },
@@ -39,6 +46,9 @@ export default {
         }).finally(() => {
           this.overlay = false;
         });
+    },
+    inspect(id) {
+
     }
   },
   computed: {
