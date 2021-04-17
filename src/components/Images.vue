@@ -1,6 +1,10 @@
 <template>
   <div>
     <b-table borderless hover striped table-variant="dark" :items="items" :fields="fields">
+      <template #cell(repotags)="row">
+        <b-button v-if="row.value != ''" v-b-tooltip.click="row.value.join('\n')" size="sm" variant="outline-primary">{{ row.value[0] }}</b-button>
+      </template>
+
       <template #cell(actions)="row">
         <b-button-group size="sm">
           <b-button variant="outline-warning" @click="inspect(row.item.Id)">Inspect</b-button>
@@ -32,7 +36,25 @@ export default {
           }
         },
         {
+          key: 'RepoTags',
+          class: 'column-font align-middle'
+        },
+        {
+          key: 'Created',
+          class: 'column-font align-middle',
+          formatter: v => {
+            var d = new Date(v * 1000);
+
+            return d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+          }
+        },
+        {
           key: 'Size',
+          class: 'column-font align-middle',
+          formatter: v => xbytes(v)
+        },
+        {
+          key: 'VirtualSize',
           class: 'column-font align-middle',
           formatter: v => xbytes(v)
         },

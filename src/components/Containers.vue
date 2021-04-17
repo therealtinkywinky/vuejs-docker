@@ -2,7 +2,7 @@
   <div>
     <b-table borderless hover striped table-variant="dark" :items="items" :fields="fields">
       <template #cell(names)="row">
-        <b-button v-b-tooltip.click="row.value.join(', ')" size="sm" variant="outline-primary">{{ row.value[0] }}</b-button>
+        <b-button v-b-tooltip.click="row.value.join('\n')" size="sm" variant="outline-primary">{{ row.value[0] }}</b-button>
       </template>
 
       <template #cell(actions)="row">
