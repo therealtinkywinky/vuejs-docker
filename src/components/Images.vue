@@ -4,6 +4,7 @@
       <template #cell(actions)="row">
         <b-button-group size="sm">
           <b-button variant="outline-warning" @click="inspect(row.item.Id)">Inspect</b-button>
+          <b-button variant="outline-info" @click="history(row.item.Id)">History</b-button>
         </b-button-group>
       </template>
     </b-table>
@@ -11,6 +12,8 @@
 </template>
 
 <script>
+import xbytes from 'xbytes';
+
 export default {
   props: [
     'filters'
@@ -19,9 +22,24 @@ export default {
     return {
       items: [],
       fields: [
-        { key: 'Id', class: 'column-font align-middle' },
-        { key: 'Containers', class: 'column-font align-middle' },
-        { key: 'Actions', label: '' }
+        {
+          key: 'Id',
+          class: 'column-font align-middle',
+          formatter: v => {
+            if (v.startsWith('sha256:'))
+              return v.slice(7, 19);
+            return v;
+          }
+        },
+        {
+          key: 'Size',
+          class: 'column-font align-middle',
+          formatter: v => xbytes(v)
+        },
+        {
+          key: 'Actions',
+          label: ''
+        }
       ]
     }
   },
@@ -40,14 +58,39 @@ export default {
         }
       };
 
+      this.$emit('status', 'Loading images...');
+
       axios.get('/images/json', data)
         .then(response => {
           this.items = response.data;
-        }).finally(() => {
-          this.overlay = false;
+
+          this.$emit('status', 'Images loaded!');
+        }).catch(() => {
+          this.$emit('status', 'There was an error when loading the images');
         });
     },
     inspect(id) {
+
+      this.$emit('status', 'Inspecting image...');
+
+      axios.get('/images/' + id + '/json')
+        .then(response => {
+          this.$emit('status', 'Image inspected!');
+        }).catch(error => {
+          this.$emit('status', 'Could not inspect image');
+        });
+
+    },
+    history(id) {
+
+      this.$emit('status', 'Getting history...');
+
+      axios.get('/images/' + id + '/history')
+        .then(response => {
+          this.$emit('status', 'History obtained!');
+        }).catch(error => {
+          this.$emit('status', 'There was an error when obtaining history');
+        });
 
     }
   },
