@@ -27,12 +27,37 @@ export default {
     return {
       items: [],
       fields: [
-        { key: 'Id', class: 'column-font align-middle', formatter: v => v.slice(0, 12) },
-        { key: 'Image', class: 'column-font align-middle' },
-        { key: 'Names', class: 'column-font align-middle', formatter: v => v.map(v => v.slice(1)).join('|') },
-        { key: 'State', class: 'column-font align-middle' },
-        { key: 'Status', class: 'column-font align-middle' },
-        { key: 'Actions', label: '' }
+        {
+          key: 'Id',
+          class: 'column-font align-middle',
+          formatter: v => v.slice(0, 12)
+        },
+        {
+          key: 'Image',
+          class: 'column-font align-middle',
+          formatter: v => {
+            if (v.startsWith('sha256:'))
+              return v.slice(7, 19);
+            return v;
+          }
+        },
+        {
+          key: 'Names',
+          class: 'column-font align-middle',
+          formatter: v => v.map(v => v.slice(1)).join('|')
+        },
+        {
+          key: 'State',
+          class: 'column-font align-middle'
+        },
+        {
+          key: 'Status',
+          class: 'column-font align-middle'
+        },
+        {
+          key: 'Actions',
+          label: ''
+        }
       ],
       container: {
         Args: []
@@ -41,6 +66,7 @@ export default {
   },
   methods: {
     loadContainers() {
+
       var data = {
         params: {
           filters: {
@@ -52,29 +78,69 @@ export default {
         }
       };
 
+      this.$emit('status', 'Loading containers...');
+
       axios.get('/containers/json', data)
         .then(response => {
           this.items = response.data;
-        }).finally(() => {
-          this.overlay = false;
+
+          this.$emit('status', 'Containers loaded!');
+        }).catch(() => {
+          this.$emit('status', 'There was an error when loading the containers');
         });
+
     },
     start(id) {
+
+      this.$emit('status', 'Starting container...');
+
+      axios.post('/containers/' + id + '/start')
+        .then(response => {
+          this.$emit('status', 'Container started!');
+        }).catch(error => {
+          this.$emit('status', 'Could not start container');
+        });
 
     },
     stop(id) {
 
+      this.$emit('status', 'Stopping container...');
+
+      axios.post('/containers/' + id + '/stop')
+        .then(response => {
+          this.$emit('status', 'Container stopped!');
+        }).catch(error => {
+          this.$emit('status', 'Could not stop container');
+        });
+
     },
     restart(id) {
 
+      this.$emit('status', 'Restarting container...');
+
+      axios.post('/containers/' + id + '/restart')
+        .then(response => {
+          this.$emit('status', 'Container restarted!');
+        }).catch(error => {
+          this.$emit('status', 'Could not restart container');
+        });
+
     },
     inspect(id) {
+
+      this.$emit('status', 'Inspecting container...');
+
       axios.get('/containers/' + id + '/json')
         .then(response => {
           this.container = response.data;
 
           this.$bvModal.show('inspect');
+
+          this.$emit('status', 'Container inspected!');
+        }).catch(error => {
+          this.$emit('status', 'Could not inspect container');
         });
+
     },
     remove(id) {
 

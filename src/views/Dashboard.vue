@@ -24,14 +24,19 @@
           </b-form-checkbox-group>
         </b-nav-form>
       </b-navbar-nav>
+
+      <b-navbar-nav class="ml-auto">
+        <b-nav-text>{{ status }}</b-nav-text>
+      </b-navbar-nav>
     </b-navbar>
 
     <b-overlay :show="overlay" variant="secondary">
       <b-container fluid class="min-vh-100 pt-5 pb-5">
         <b-card bg-variant="dark" class="mx-auto w-75">
           <template #default>
-            <images v-if="view == 'images'" :filters="filters.images"></images>
-            <containers v-else-if="view == 'containers'" :filters="filters.containers"></containers>
+            <images v-if="view == 'images'" v-on:status="status = $event" :filters="filters.images"></images>
+
+            <containers v-else-if="view == 'containers'" v-on:status="status = $event" :filters="filters.containers"></containers>
           </template>
         </b-card>
       </b-container>
@@ -77,7 +82,8 @@ export default {
         }
       },
 
-      overlay: false
+      overlay: false,
+      status: ''
     }
   }
 }
