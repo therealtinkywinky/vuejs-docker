@@ -1,6 +1,10 @@
 <template>
   <div>
     <b-table borderless hover striped table-variant="dark" :items="items" :fields="fields">
+      <template #cell(names)="row">
+        <b-button v-b-tooltip.click="row.value.join(', ')" size="sm" variant="outline-primary">{{ row.value[0] }}</b-button>
+      </template>
+
       <template #cell(actions)="row">
         <b-button-group size="sm">
           <b-button variant="outline-primary" @click="start(row.item.Id)">Start</b-button>
@@ -43,8 +47,7 @@ export default {
         },
         {
           key: 'Names',
-          class: 'column-font align-middle',
-          formatter: v => v.map(v => v.slice(1)).join('|')
+          class: 'column-font align-middle'
         },
         {
           key: 'State',

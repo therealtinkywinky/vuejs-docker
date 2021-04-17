@@ -5,6 +5,10 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/',
+    redirect: '/connect'
+  },
+  {
     path: '/connect',
     name: 'Connect',
     component: function() {
