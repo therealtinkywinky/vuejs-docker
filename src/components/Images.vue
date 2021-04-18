@@ -8,10 +8,16 @@
       <template #cell(actions)="row">
         <b-button-group size="sm">
           <b-button variant="outline-warning" @click="inspect(row.item.Id)">Inspect</b-button>
-          <b-button variant="outline-info" @click="history(row.item.Id)">History</b-button>
+          <b-button variant="outline-info" @click="getHistory(row.item.Id)">History</b-button>
         </b-button-group>
       </template>
     </b-table>
+
+    <b-modal id="history" size="lg" title="History" ok-only ok-title="Close">
+      <div v-for="layer in history" class="ellipsis" style="cursor: default;">
+        <span v-b-popover.hover.bottom="layer.CreatedBy">{{ layer.CreatedBy }}</span>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -25,6 +31,7 @@ export default {
   data() {
     return {
       items: [],
+      history: [],
       fields: [
         {
           key: 'Id',
@@ -103,13 +110,15 @@ export default {
         });
 
     },
-    history(id) {
+    getHistory(id) {
 
       this.$emit('status', 'Getting history...');
 
       axios.get('/images/' + id + '/history')
         .then(response => {
           this.$emit('status', 'History obtained!');
+          this.$bvModal.show('history');
+          this.history = response.data.reverse();
         }).catch(error => {
           this.$emit('status', 'There was an error when obtaining history');
         });
@@ -135,5 +144,11 @@ export default {
 <style>
 .column-font {
   font-size: 12px;
+}
+
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>
