@@ -16,8 +16,18 @@
       </template>
     </b-table>
 
-    <b-modal id="inspect" title="Inspect">
-      <p class="my-4">Args: {{ container.Args.join(' ') }}</p>
+    <b-modal id="inspect" title="Inspect" size="lg" ok-only ok-title="Close">
+      <div v-for="(value, key) in container">
+        <template v-if="Array.isArray(value)">
+          <p>{{ key }}:</p>
+          <ul>
+            <li v-for="v in value">{{ v }}</li>
+          </ul>
+        </template>
+        <template v-else>
+          <p>{{ key }}: {{ value }}</p>
+        </template>
+      </div>
     </b-modal>
   </div>
 </template>
@@ -62,9 +72,7 @@ export default {
           label: ''
         }
       ],
-      container: {
-        Args: []
-      }
+      container: {}
     }
   },
   methods: {
@@ -135,7 +143,13 @@ export default {
 
       axios.get('/containers/' + id + '/json')
         .then(response => {
-          this.container = response.data;
+          this.container = {
+            Args: response.data.Args.join(' '),
+            IPAddress: response.data.NetworkSettings.IPAddress,
+            MacAddress: response.data.NetworkSettings.MacAddress,
+            Hostname: response.data.Config.Hostname,
+            Mounts: response.data.Mounts.map(value => { return value.Source + ':' + value.Destination })
+          };
 
           this.$bvModal.show('inspect');
 
