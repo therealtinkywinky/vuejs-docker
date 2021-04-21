@@ -13,6 +13,20 @@
       </template>
     </b-table>
 
+    <b-modal id="inspect" title="Inspect" size="lg" ok-only ok-title="Close">
+      <div v-for="(value, key) in image">
+        <template v-if="Array.isArray(value)">
+          <p>{{ key }}:</p>
+          <ul>
+            <li v-for="v in value">{{ v }}</li>
+          </ul>
+        </template>
+        <template v-else>
+          <p>{{ key }}: {{ value }}</p>
+        </template>
+      </div>
+    </b-modal>
+
     <b-modal id="history" size="lg" title="History" ok-only ok-title="Close">
       <div v-for="layer in layers" class="ellipsis" style="cursor: default;">
         <span v-b-popover.hover.bottom="layer.CreatedBy">{{ layer.CreatedBy }}</span>
@@ -31,6 +45,7 @@ export default {
   data() {
     return {
       items: [],
+      image: [],
       layers: [],
       fields: [
         {
@@ -104,6 +119,17 @@ export default {
 
       axios.get('/images/' + id + '/json')
         .then(response => {
+          this.image = {
+            Os: response.data.Os,
+            Architecture: response.data.Architecture,
+            DockerVersion: response.data.DockerVersion,
+            WorkingDir: response.data.ContainerConfig.WorkingDir,
+            Env: response.data.ContainerConfig.Env,
+            RepoTags: response.data.RepoTags
+          };
+
+          this.$bvModal.show('inspect');
+
           this.$emit('status', 'Image inspected!');
         }).catch(error => {
           this.$emit('status', 'Could not inspect image');
