@@ -185,7 +185,7 @@ export default {
           this.$emit('status', 'Processes obtained!');
         }).catch(error => {
           this.$emit('status', 'Could not obtain processes');
-        })
+        });
 
     }
   },

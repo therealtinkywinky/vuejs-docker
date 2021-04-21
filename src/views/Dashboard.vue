@@ -28,7 +28,7 @@
     </b-navbar>
 
     <b-overlay :show="overlay" variant="secondary">
-      <b-container fluid class="min-vh-100 pt-5 pb-5">
+      <b-container v-if="view != ''" fluid class="min-vh-100 pt-5 pb-5">
         <b-card bg-variant="dark" class="mx-auto">
           <template #default>
             <images v-if="view == 'images'" v-on:status="status = $event" :filters="filters.images"></images>
@@ -55,8 +55,7 @@ export default {
       view: '',
       buttons: [
         { text: 'Images', value: 'images' },
-        { text: 'Containers', value: 'containers' },
-        { text: 'Search', value: 'search' }
+        { text: 'Containers', value: 'containers' }
       ],
 
       options: {
