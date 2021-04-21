@@ -7,9 +7,6 @@
         <b-nav-form>
           <b-input-group prepend="Image Name">
             <b-form-input v-model="filters.images.reference"></b-form-input>
-            <b-input-group-append>
-              <b-button variant="info">Search</b-button>
-            </b-input-group-append>
           </b-input-group>
         </b-nav-form>
       </b-navbar-nav>
@@ -76,7 +73,7 @@ export default {
 
       filters: {
         images: {
-          reference: ''
+          reference: '*'
         },
         containers: {
           state: []

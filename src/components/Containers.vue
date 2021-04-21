@@ -11,7 +11,7 @@
           <b-button variant="outline-secondary" @click="stop(row.item.Id)">Stop</b-button>
           <b-button variant="outline-info" @click="restart(row.item.Id)">Restart</b-button>
           <b-button variant="outline-warning" @click="inspect(row.item.Id)">Inspect</b-button>
-          <b-button variant="outline-danger" @click="remove(row.item.Id)">Remove</b-button>
+          <b-button variant="outline-danger" @click="top(row.item.Id)">Top</b-button>
         </b-button-group>
       </template>
     </b-table>
@@ -27,6 +27,12 @@
         <template v-else>
           <p>{{ key }}: {{ value }}</p>
         </template>
+      </div>
+    </b-modal>
+
+    <b-modal id="top" title="Top" size="lg" ok-only ok-title="Close">
+      <div v-for="process in processes">
+        <p>{{ process }}</p>
       </div>
     </b-modal>
   </div>
@@ -72,7 +78,8 @@ export default {
           label: ''
         }
       ],
-      container: {}
+      container: {},
+      processes: []
     }
   },
   methods: {
@@ -159,7 +166,26 @@ export default {
         });
 
     },
-    remove(id) {
+    top(id) {
+
+      var data = {
+        params: {
+          ps_args: 'aux'
+        }
+      };
+
+      this.$emit('status', 'Obtaining processes from container...');
+
+      axios.get('/containers/' + id + '/top', data)
+        .then(response => {
+          this.processes = response.data.Processes.map(value => value[10] + ' [PID: ' + value[1] + ' - User: ' + value[0] + ']');
+
+          this.$bvModal.show('top');
+
+          this.$emit('status', 'Processes obtained!');
+        }).catch(error => {
+          this.$emit('status', 'Could not obtain processes');
+        })
 
     }
   },
