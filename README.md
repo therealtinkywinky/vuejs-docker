@@ -1,19 +1,16 @@
-# app
+# Vuejs-Docker
 
-## Project setup
-```
-npm install
-```
+## Make Docker to listen connections on a TCP port
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+...
 
-### Compiles and minifies for production
+## Build the code
 ```
-npm run build
+docker build -t <image> https://github.com/therealtinkywinky/vuejs-docker.git
+
+docker run -d -p <port>:8080 <image>
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Go for it!
+
+Point your browser to **localhost:\<port\>**
