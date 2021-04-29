@@ -38,8 +38,8 @@
         <b-card bg-variant="dark" class="mx-auto">
           <template #default>
             <images v-if="view == 'images'" v-on:status="status = $event" :filters="filters.images"></images>
-
             <containers v-else-if="view == 'containers'" v-on:status="status = $event" :filters="filters.containers"></containers>
+            <networks v-else-if="view == 'networks'" v-on:status="status = $event"></networks>
           </template>
         </b-card>
       </b-container>
@@ -50,18 +50,21 @@
 <script>
 import Images from '../components/Images';
 import Containers from '../components/Containers';
+import Networks from '../components/Networks';
 
 export default {
   components: {
     Images,
-    Containers
+    Containers,
+    Networks
   },
   data() {
     return {
       view: '',
       buttons: [
         { text: 'Images', value: 'images' },
-        { text: 'Containers', value: 'containers' }
+        { text: 'Containers', value: 'containers' },
+        { text: 'Networks', value: 'networks' }
       ],
 
       options: {
