@@ -40,6 +40,7 @@
             <images v-if="view == 'images'" v-on:status="status = $event" :filters="filters.images"></images>
             <containers v-else-if="view == 'containers'" v-on:status="status = $event" :filters="filters.containers"></containers>
             <networks v-else-if="view == 'networks'" v-on:status="status = $event"></networks>
+            <volumes v-else-if="view == 'volumes'" v-on:status="status = $event"></volumes>
           </template>
         </b-card>
       </b-container>
@@ -51,12 +52,14 @@
 import Images from '../components/Images';
 import Containers from '../components/Containers';
 import Networks from '../components/Networks';
+import Volumes from '../components/Volumes';
 
 export default {
   components: {
     Images,
     Containers,
-    Networks
+    Networks,
+    Volumes
   },
   data() {
     return {
@@ -64,7 +67,8 @@ export default {
       buttons: [
         { text: 'Images', value: 'images' },
         { text: 'Containers', value: 'containers' },
-        { text: 'Networks', value: 'networks' }
+        { text: 'Networks', value: 'networks' },
+        { text: 'Volumes', value: 'volumes' }
       ],
 
       options: {
