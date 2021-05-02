@@ -29,11 +29,8 @@
             <b-form-rating v-model="filters.search.stars" variant="success" stars="5" inline></b-form-rating>
 
             <template #append>
-              <b-form-checkbox-group
-                :options="options.search"
-                button-variant="outline-success"
-                buttons>
-              </b-form-checkbox-group>
+              <b-button :pressed.sync="filters.search.automated" variant="outline-success">Automated</b-button>
+              <b-button :pressed.sync="filters.search.official" variant="outline-success">Official</b-button>
             </template>
           </b-input-group>
         </b-nav-form>
@@ -98,11 +95,7 @@ export default {
             'Exited',
             'Dead'
           ]
-        },
-        search: [
-          { value: 'is-automated', text: 'Automated' },
-          { value: 'is-official', text: 'Official' }
-        ]
+        }
       },
 
       filters: {
@@ -114,7 +107,9 @@ export default {
         },
         search: {
           term: '',
-          stars: 0
+          stars: 0,
+          automated: false,
+          official: false
         }
       },
 
