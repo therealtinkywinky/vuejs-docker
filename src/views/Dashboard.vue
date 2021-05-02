@@ -22,6 +22,23 @@
         </b-nav-form>
       </b-navbar-nav>
 
+      <b-navbar-nav v-else-if="view == 'search'" class="ml-5">
+        <b-nav-form>
+          <b-input-group prepend="Image Name">
+            <b-form-input v-model="filters.search.term"></b-form-input>
+            <b-form-rating v-model="filters.search.stars" variant="success" stars="5" inline></b-form-rating>
+
+            <template #append>
+              <b-form-checkbox-group
+                :options="options.search"
+                button-variant="outline-success"
+                buttons>
+              </b-form-checkbox-group>
+            </template>
+          </b-input-group>
+        </b-nav-form>
+      </b-navbar-nav>
+
       <b-navbar-nav class="ml-auto">
         <b-nav-text>{{ status }}</b-nav-text>
       </b-navbar-nav>
@@ -68,7 +85,8 @@ export default {
         { text: 'Images', value: 'images' },
         { text: 'Containers', value: 'containers' },
         { text: 'Networks', value: 'networks' },
-        { text: 'Volumes', value: 'volumes' }
+        { text: 'Volumes', value: 'volumes' },
+        { text: 'Search', value: 'search' }
       ],
 
       options: {
@@ -80,7 +98,11 @@ export default {
             'Exited',
             'Dead'
           ]
-        }
+        },
+        search: [
+          { value: 'is-automated', text: 'Automated' },
+          { value: 'is-official', text: 'Official' }
+        ]
       },
 
       filters: {
@@ -89,6 +111,10 @@ export default {
         },
         containers: {
           state: []
+        },
+        search: {
+          term: '',
+          stars: 0
         }
       },
 
