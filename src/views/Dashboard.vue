@@ -26,7 +26,7 @@
         <b-nav-form>
           <b-input-group prepend="Image Name">
             <b-form-input v-model="filters.search.term"></b-form-input>
-            <b-form-rating v-model="filters.search.stars" variant="success" stars="5" inline></b-form-rating>
+            <b-form-input v-model="filters.search.stars" type="number"></b-form-input>
 
             <template #append>
               <b-button :pressed.sync="filters.search.automated" variant="outline-success">Automated</b-button>
@@ -55,6 +55,7 @@
             <containers v-else-if="view == 'containers'" v-on:status="status = $event" :filters="filters.containers"></containers>
             <networks v-else-if="view == 'networks'" v-on:status="status = $event"></networks>
             <volumes v-else-if="view == 'volumes'" v-on:status="status = $event"></volumes>
+            <search v-else-if="view == 'search'" v-on:status="status = $event" :filters="filters.search"></search>
           </template>
         </b-card>
       </b-container>
@@ -67,13 +68,15 @@ import Images from '../components/Images';
 import Containers from '../components/Containers';
 import Networks from '../components/Networks';
 import Volumes from '../components/Volumes';
+import Search from '../components/Search';
 
 export default {
   components: {
     Images,
     Containers,
     Networks,
-    Volumes
+    Volumes,
+    Search
   },
   data() {
     return {
