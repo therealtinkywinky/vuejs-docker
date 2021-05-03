@@ -26,7 +26,7 @@
         <b-nav-form>
           <b-input-group prepend="Image Name">
             <b-form-input v-model="filters.search.term"></b-form-input>
-            <b-form-input v-model="filters.search.stars" type="number"></b-form-input>
+            <b-form-spinbutton v-model="filters.search.stars" min="0" max="1000" :formatter-fn="v => v == 0 ? 'All' : v"></b-form-spinbutton>
 
             <template #append>
               <b-button :pressed.sync="filters.search.automated" variant="outline-success">Automated</b-button>
