@@ -47,9 +47,9 @@ export default {
         params: {
           term: this.term,
           filters: {
-            // 'is-automated': this.automated,
-            // 'is-official': this.official,
-            // stars: this.stars
+            ...this.automated !== null && { 'is-automated': this.automated },
+            ...this.official !== null && { 'is-official': this.official },
+            ...this.stars > 0 && { stars: this.stars }
           }
         },
         headers: {

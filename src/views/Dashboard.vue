@@ -46,13 +46,15 @@
       </b-navbar-nav>
 
       <b-navbar-nav class="ml-auto">
-        <b-nav-text>{{ status }}</b-nav-text>
-      </b-navbar-nav>
-
-      <b-navbar-nav class="ml-auto">
         <b-nav-item>
           <b-icon-arrow-left-circle @click="$router.go(-1)"></b-icon-arrow-left-circle>
         </b-nav-item>
+      </b-navbar-nav>
+    </b-navbar>
+
+    <b-navbar toggleable="lg" type="dark" variant="dark">
+      <b-navbar-nav>
+        <b-nav-text>{{ status }}</b-nav-text>
       </b-navbar-nav>
     </b-navbar>
 
@@ -120,8 +122,8 @@ export default {
         search: {
           term: '',
           stars: 0,
-          automated: false,
-          official: false
+          automated: null,
+          official: null
         }
       },
 
