@@ -29,8 +29,17 @@
             <b-form-spinbutton v-model="filters.search.stars" min="0" max="1000" :formatter-fn="v => v == 0 ? 'All' : v"></b-form-spinbutton>
 
             <template #append>
-              <b-button :pressed.sync="filters.search.automated" variant="outline-success">Automated</b-button>
-              <b-button :pressed.sync="filters.search.official" variant="outline-success">Official</b-button>
+              <b-dropdown :text="labels.search.automated" variant="success">
+                <b-dropdown-item @click="filters.search.automated = null, labels.search.automated = 'All'">All</b-dropdown-item>
+                <b-dropdown-item @click="filters.search.automated = true, labels.search.automated = 'Automated'">Automated</b-dropdown-item>
+                <b-dropdown-item @click="filters.search.automated = false, labels.search.automated = 'Not Automated'">Not Automated</b-dropdown-item>
+              </b-dropdown>
+
+              <b-dropdown :text="labels.search.official" variant="success">
+                <b-dropdown-item @click="filters.search.official = null, labels.search.official = 'All'">All</b-dropdown-item>
+                <b-dropdown-item @click="filters.search.official = true, labels.search.official = 'Official'">Official</b-dropdown-item>
+                <b-dropdown-item @click="filters.search.official = false, labels.search.official = 'Not Official'">Not Official</b-dropdown-item>
+              </b-dropdown>
             </template>
           </b-input-group>
         </b-nav-form>
@@ -113,6 +122,13 @@ export default {
           stars: 0,
           automated: false,
           official: false
+        }
+      },
+
+      labels: {
+        search: {
+          automated: 'All',
+          official: 'All'
         }
       },
 
