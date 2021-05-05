@@ -1,12 +1,6 @@
 <template>
   <div>
-    <b-table borderless hover striped table-variant="dark" :items="items" :fields="fields">
-      <template #cell(actions)="row">
-        <b-button-group size="sm">
-          <b-button variant="outline-warning" @click="pull(row.item.name)">Pull</b-button>
-        </b-button-group>
-      </template>
-    </b-table>
+    <b-table borderless hover striped table-variant="dark" :items="items" :fields="fields"></b-table>
   </div>
 </template>
 
@@ -41,10 +35,6 @@ export default {
           key: 'star_count',
           label: 'Stars',
           class: 'column-font align-middle'
-        },
-        {
-          key: 'actions',
-          label: ''
         }
       ]
     }
@@ -77,9 +67,6 @@ export default {
           this.$emit('status', 'There was an error when loading the images');
         });
 
-    },
-    pull(name) {
-      console.log(name);
     }
   },
   computed: {
